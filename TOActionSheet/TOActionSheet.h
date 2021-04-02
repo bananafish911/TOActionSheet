@@ -55,6 +55,8 @@ typedef NS_ENUM(NSInteger, TOActionSheetContentStyle) {
  */
 @property (nonatomic, assign) TOActionSheetContentStyle contentstyle;
 
+@property (nonatomic, assign) UIControlContentHorizontalAlignment buttonContentHorizontalAlignment; // how to position content horizontally inside control. default is center
+
 /** 
  The alpha value of the dimming view behind the action sheet (Default is 0.0f)
  */
@@ -207,6 +209,7 @@ Optionally, the text for the 'Cancel' button.
  @param tappedBlock A block that will be executed when the button is tapped
  */
 - (void)addButtonWithTitle:(NSString *)title icon:(UIImage *)icon tappedBlock:(void (^)(void))tappedBlock;
+- (void)addButtonWithTitle:(NSString *)title icon:(UIImage *)icon iconText:(NSString *)iconText tappedBlock:(void (^)(void))tappedBlock;
 - (void)addButtonWithTitle:(NSString *)title tappedBlock:(void (^)(void))tappedBlock;
 - (void)addButtonWithTitle:(NSString *)title atIndex:(NSInteger)index tappedBlock:(void (^)(void))tappedBlock;
 - (void)removeButtonAtIndex:(NSInteger)index;

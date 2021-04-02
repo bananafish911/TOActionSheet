@@ -53,6 +53,7 @@ const CGFloat kTOActionSheetScreenPadding = 20.0f;
 /* The titles and blocks for each button */
 @property (nonatomic, strong) NSMutableArray *buttonTitles;
 @property (nonatomic, strong) NSMutableArray *buttonIcons;
+@property (nonatomic, strong) NSMutableArray *buttonIconsTexts;
 @property (nonatomic, strong) NSMutableArray *buttonBlocks;
 
 @property (nonatomic, copy) NSString *destructiveTitle;
@@ -166,20 +167,22 @@ const CGFloat kTOActionSheetScreenPadding = 20.0f;
     }
     else {
         _buttonBackgroundColor              = [UIColor colorWithWhite:1.0f alpha:1.0f];
-        _buttonTextColor                    = [UIColor colorWithWhite:0.0f alpha:1.0f];
+        _buttonTextColor                    = [UIColor systemBlueColor];//[UIColor colorWithWhite:0.0f alpha:1.0f];
         _buttonTappedBackgroundColor        = [UIColor colorWithRed:82.0f/255.0f green:200.0f/255.0f blue:255.0f/255.0f alpha:1.0f];
         _buttonTappedTextColor              = [UIColor colorWithWhite:1.0f alpha:1.0f];
-        _cancelButtonBackgroundColor        = [UIColor colorWithWhite:0.3f alpha:1.0f];
-        _cancelButtonTextColor              = [UIColor colorWithWhite:1.0f alpha:1.0f];
-        _cancelButtonTappedBackgroundColor  = [UIColor colorWithWhite:0.25f alpha:1.0f];
-        _cancelButtonTappedTextColor        = [UIColor colorWithWhite:1.0f alpha:1.0f];
+
+        _cancelButtonBackgroundColor              = [UIColor colorWithWhite:1.0f alpha:1.0f];
+        _cancelButtonTextColor                    = [UIColor systemBlueColor];//[UIColor colorWithWhite:0.0f alpha:1.0f];
+        _cancelButtonTappedBackgroundColor        = [UIColor colorWithRed:82.0f/255.0f green:200.0f/255.0f blue:255.0f/255.0f alpha:1.0f];
+        _cancelButtonTappedTextColor              = [UIColor colorWithWhite:1.0f alpha:1.0f];
+
         _destructiveButtonBackgroundColor   = [UIColor colorWithRed:1.0f green:0.0f blue:0.0f alpha:1.0f];
         _destructiveButtonTextColor         = [UIColor colorWithWhite:1.0f alpha:1.0f];
         _destructiveButtonTappedBackgroundColor = [UIColor colorWithRed:0.8f green:0.0f blue:0.0f alpha:1.0f];
         _destructiveButtonTappedTextColor   = [UIColor colorWithWhite:1.0f alpha:1.0f];
         _buttonSeparatorColor               = [UIColor colorWithWhite:0.9f alpha:1.0f];
         _headerBackgroundColor              = [UIColor colorWithWhite:0.97f alpha:1.0f];
-        _dimmingViewAlpha                   = 0.0f;
+        _dimmingViewAlpha                   = 0.1f;
         _titleColor                         = [UIColor blackColor];
         _shadowOpacity                      = 0.25f;
         _shadowRadius                       = 100.0f;
@@ -438,6 +441,7 @@ const CGFloat kTOActionSheetScreenPadding = 20.0f;
     self.buttonViews = [NSMutableArray array];
     for (NSString *title in self.buttonTitles) {
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+        button.contentEdgeInsets = UIEdgeInsetsMake(0, -5, 0, 5);
         button.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         
         [button addTarget:self action:@selector(buttonTapped:) forControlEvents:UIControlEventTouchUpInside];
@@ -451,27 +455,36 @@ const CGFloat kTOActionSheetScreenPadding = 20.0f;
         [button setTitleColor:self.buttonTextColor forState:UIControlStateNormal];
         [button setTitleColor:self.buttonTappedTextColor forState:UIControlStateHighlighted];
         [button setTitle:title forState:UIControlStateNormal];
-        
-        if (self.contentstyle == TOActionSheetContentStyleLeft) {
-            button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-        } else if (self.contentstyle == TOActionSheetContentStyleRight) {
-            button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-        } else {
-            button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
-        }
+
+        button.contentHorizontalAlignment = self.buttonContentHorizontalAlignment;
         
         if (self.buttonIcons.count && [self.buttonIcons objectAtIndex:i] != nil) {
             UIImage *icon = [[self.buttonIcons objectAtIndex:i] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-            UIImageView *image = [[UIImageView alloc] initWithImage:icon];
-            image.tag = 123;
-            image.tintColor = self.buttonTextColor;
-            CGFloat size = (button.frame.size.height-image.frame.size.height)/2;
+            CGRect imageViewFrame = CGRectMake(0, 0, button.frame.size.height / 1.5, button.frame.size.height / 1.5);
+            UIImageView *imageView = [[UIImageView alloc] initWithFrame:imageViewFrame];
+            imageView.contentMode = UIViewContentModeScaleAspectFit;
+            imageView.image = icon;
+            imageView.tag = 123;
+            imageView.tintColor = self.buttonTextColor;
+            CGFloat size = (button.frame.size.height-imageView.frame.size.height)/2;
             if (self.contentstyle == TOActionSheetContentStyleRight) {
-                image.frame = (CGRect){button.frame.size.width-(10+image.frame.size.width), size, image.frame.size.width, image.frame.size.height};
+                imageView.frame = (CGRect){button.frame.size.width-(10+imageView.frame.size.width), size, imageView.frame.size.width, imageView.frame.size.height};
             } else {
-                image.frame = (CGRect){size, size, image.frame.size.width, image.frame.size.height};
+                imageView.frame = (CGRect){size, size, imageView.frame.size.width, imageView.frame.size.height};
             }
-            [button addSubview:image];
+            [button addSubview:imageView];
+
+            if (self.buttonIconsTexts.count && [self.buttonIconsTexts objectAtIndex:i] != nil) {
+                NSString *iconText = [self.buttonIconsTexts objectAtIndex:i];
+                UILabel *label = [[UILabel alloc] initWithFrame:imageViewFrame];
+                label.text = iconText;
+                label.font = self.buttonFont;
+                label.textColor = self.buttonBackgroundColor;
+                label.textAlignment = NSTextAlignmentCenter;
+                label.numberOfLines = 1;
+                label.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+                [imageView addSubview:label];
+            }
             
             if (self.contentstyle == TOActionSheetContentStyleLeft) {
                 [button setTitleEdgeInsets:UIEdgeInsetsMake(0, 50, 0, 0)];
@@ -518,7 +531,7 @@ const CGFloat kTOActionSheetScreenPadding = 20.0f;
     [self.cancelButton setTitleColor:self.cancelButtonTappedTextColor forState:UIControlStateHighlighted];
     
     [self.cancelButton addTarget:self action:@selector(buttonTapped:) forControlEvents:UIControlEventTouchUpInside];
-    
+
     [self addSubview:self.cancelButton];
 }
 
@@ -529,6 +542,7 @@ const CGFloat kTOActionSheetScreenPadding = 20.0f;
     }
     
     self.destructiveButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.destructiveButton.contentEdgeInsets = UIEdgeInsetsMake(0, -10, 0, 10);
     self.destructiveButton.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     self.destructiveButton.frame = (CGRect){0,0,self.width,kTOActionSheetButtonHeight};
     [self.destructiveButton setTitle:self.destructiveTitle forState:UIControlStateNormal];
@@ -536,13 +550,7 @@ const CGFloat kTOActionSheetScreenPadding = 20.0f;
     [self.destructiveButton setTitleColor:self.destructiveButtonTappedTextColor forState:UIControlStateHighlighted];
     self.destructiveButton.titleLabel.font = self.buttonFont;
     
-    if (self.contentstyle == TOActionSheetContentStyleLeft) {
-        self.destructiveButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-    } else if (self.contentstyle == TOActionSheetContentStyleRight) {
-        self.destructiveButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-    } else {
-        self.destructiveButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
-    }
+    self.destructiveButton.contentHorizontalAlignment = self.buttonContentHorizontalAlignment;
     
     if (self.destructiveIcon != nil) {
         UIImage *icon = [self.destructiveIcon imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
@@ -955,6 +963,19 @@ const CGFloat kTOActionSheetScreenPadding = 20.0f;
     }
 
     [self addButtonWithTitle:title atIndex:self.buttonTitles.count tappedBlock:tappedBlock];
+}
+
+- (void)addButtonWithTitle:(NSString *)title icon:(UIImage *)icon iconText:(NSString *)iconText tappedBlock:(void (^)(void))tappedBlock {
+
+    if (self.buttonIconsTexts == nil) {
+        self.buttonIconsTexts = [NSMutableArray array];
+    }
+
+    if (iconText != nil) {
+        [self.buttonIconsTexts insertObject:iconText atIndex:self.buttonTitles.count];
+    }
+
+    [self addButtonWithTitle:title icon:icon tappedBlock:tappedBlock];
 }
 
 - (void)addButtonWithTitle:(NSString *)title tappedBlock:(void (^)(void))tappedBlock

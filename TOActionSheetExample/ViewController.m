@@ -18,17 +18,15 @@
 
 - (IBAction)didTapShow:(id)sender {
     TOActionSheet *actionSheet = [[TOActionSheet alloc] init];
-    actionSheet.title = @"A thing needs to be done.\nAre you sure you want to do it?";
+    actionSheet.title = nil;
     actionSheet.style = (sender == self.darkButton) ? TOActionSheetStyleDark : TOActionSheetStyleLight;
-    actionSheet.contentstyle = TOActionSheetContentStyleDefault;
-    [actionSheet addButtonWithTitle:@"Do the thing" icon:nil tappedBlock:^{
+    actionSheet.contentstyle = TOActionSheetContentStyleRight;
+    actionSheet.buttonContentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
+    [actionSheet addButtonWithTitle:@"Do the thing" icon:[UIImage imageNamed:@"help_ad_bubble"] iconText:@"ADD" tappedBlock:^{
         NSLog(@"Done!");
     }];
     [actionSheet addButtonWithTitle:@"Do another thing" icon:nil tappedBlock:^{
         NSLog(@"Done!");
-    }];
-    [actionSheet addDestructiveButtonWithTitle:@"Delete the thing" icon:nil tappedBlock:^{
-        NSLog(@"Deleted!");
     }];
     actionSheet.actionSheetDismissedBlock = ^{
         NSLog(@"Dismissed!");
