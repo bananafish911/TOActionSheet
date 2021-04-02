@@ -459,7 +459,7 @@ const CGFloat kTOActionSheetScreenPadding = 20.0f;
         button.contentHorizontalAlignment = self.buttonContentHorizontalAlignment;
         
         if (self.buttonIcons.count && [self.buttonIcons objectAtIndex:i] != nil) {
-            UIImage *icon = [[self.buttonIcons objectAtIndex:i] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+            UIImage *icon = [[self.buttonIcons objectAtIndex:i] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
             CGRect imageViewFrame = CGRectMake(0, 0, button.frame.size.height / 1.5, button.frame.size.height / 1.5);
             UIImageView *imageView = [[UIImageView alloc] initWithFrame:imageViewFrame];
             imageView.contentMode = UIViewContentModeScaleAspectFit;
