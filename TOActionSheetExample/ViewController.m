@@ -58,7 +58,8 @@
     };
 
     UIButton *button = (UIButton *)sender;
-    [actionSheet showFromView:button inView:self.navigationController.view];
+//    [actionSheet showFromView:button inView:self.navigationController.view];
+    [actionSheet showFromView:self.view inView:self.view];
 }
 
 @end

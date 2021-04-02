@@ -829,24 +829,27 @@ const CGFloat kTOActionSheetScreenPadding = 20.0f;
 - (void)presentViewWithRegularAnimation
 {
     CGPoint anchorPoint = (CGPoint){0.5f, 0.5f};
-    switch (self.arrowDirection) {
-        case TOActionSheetArrowDirectionDown:
-            anchorPoint.x = CGRectGetMidX(self.arrowImageView.frame) / CGRectGetWidth(self.containerView.frame);
-            anchorPoint.y = 1.0f;
-            break;
-        case TOActionSheetArrowDirectionLeft:
-            anchorPoint.y = CGRectGetMidY(self.arrowImageView.frame) / CGRectGetHeight(self.containerView.frame);
-            anchorPoint.x = 0.0f;
-            break;
-        case TOActionSheetArrowDirectionUp:
-            anchorPoint.x = CGRectGetMidX(self.arrowImageView.frame) / CGRectGetWidth(self.containerView.frame);
-            anchorPoint.y = 0.0f;
-            break;
-        case TOActionSheetArrowDirectionRight:
-            anchorPoint.y = CGRectGetMidY(self.arrowImageView.frame) / CGRectGetHeight(self.containerView.frame);
-            anchorPoint.x = 1.0f;
-            break;
-        default: break;
+//    switch (self.arrowDirection) {
+//        case TOActionSheetArrowDirectionDown:
+//            anchorPoint.x = CGRectGetMidX(self.arrowImageView.frame) / CGRectGetWidth(self.containerView.frame);
+//            anchorPoint.y = 1.0f;
+//            break;
+//        case TOActionSheetArrowDirectionLeft:
+//            anchorPoint.y = CGRectGetMidY(self.arrowImageView.frame) / CGRectGetHeight(self.containerView.frame);
+//            anchorPoint.x = 0.0f;
+//            break;
+//        case TOActionSheetArrowDirectionUp:
+//            anchorPoint.x = CGRectGetMidX(self.arrowImageView.frame) / CGRectGetWidth(self.containerView.frame);
+//            anchorPoint.y = 0.0f;
+//            break;
+//        case TOActionSheetArrowDirectionRight:
+//            anchorPoint.y = CGRectGetMidY(self.arrowImageView.frame) / CGRectGetHeight(self.containerView.frame);
+//            anchorPoint.x = 1.0f;
+//            break;
+//        default: break;
+//    }
+    if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ) {
+        self.containerView.center = self.parentView.center;
     }
     
     self.containerView.layer.anchorPoint = anchorPoint;
