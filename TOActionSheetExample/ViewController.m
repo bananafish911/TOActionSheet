@@ -24,32 +24,38 @@
     actionSheet.contentstyle = TOActionSheetContentStyleRight;
     actionSheet.buttonContentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
 
+    [actionSheet addButtonWithTitle:@"Do the thing"
+                          rightIcon:[UIImage imageNamed:@"help_ad_bubble"]
+                           leftIcon:[UIImage imageNamed:@"help_mark_error"]
+                      rightIconText:@"3" tappedBlock:^{
+        NSLog(@"Done!");
+    }];
+
+    [actionSheet addButtonWithTitle:@"Do another thing"
+                          rightIcon:[UIImage imageNamed:@"help_ad_bubble"]
+                           leftIcon:[UIImage imageNamed:@"help_next_puzzle"]
+                      rightIconText:@"AD" tappedBlock:^{
+        NSLog(@"Done!");
+    }];
 
     [actionSheet addButtonWithTitle:@"Do the thing"
-                               icon:[UIImage imageNamed:@"help_ad_bubble"]
-                           iconText:@"3"
-                        tappedBlock:^{
+                          rightIcon:[UIImage imageNamed:@"help_ad_bubble"]
+                           leftIcon:[UIImage imageNamed:@"help_solve_letter"]
+                      rightIconText:@"2" tappedBlock:^{
         NSLog(@"Done!");
     }];
 
-    [actionSheet addButtonWithTitle:@"Do another thing"
-                               icon:[UIImage imageNamed:@"help_ad_bubble"]
-                           iconText:@"AD"
-                        tappedBlock:^{
+    [actionSheet addButtonWithTitle:@"Do the thing"
+                          rightIcon:[UIImage imageNamed:@"help_ad_bubble"]
+                           leftIcon:[UIImage imageNamed:@"help_sove_word"]
+                      rightIconText:@"1" tappedBlock:^{
         NSLog(@"Done!");
     }];
 
-    [actionSheet addButtonWithTitle:@"Do another thing"
-                               icon:[UIImage imageNamed:@"help_ad_bubble"]
-                           iconText:@"ADD"
-                        tappedBlock:^{
-        NSLog(@"Done!");
-    }];
-
-    [actionSheet addButtonWithTitle:@"Do another thing"
-                               icon:[UIImage imageNamed:@"help_ad_bubble"]
-                           iconText:@"AD"
-                        tappedBlock:^{
+    [actionSheet addButtonWithTitle:@"No icons"
+                          rightIcon:[UIImage new]
+                           leftIcon:[UIImage new]
+                      rightIconText:@"" tappedBlock:^{
         NSLog(@"Done!");
     }];
 

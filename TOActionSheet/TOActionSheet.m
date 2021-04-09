@@ -52,8 +52,9 @@ const CGFloat kTOActionSheetScreenPadding = 20.0f;
 
 /* The titles and blocks for each button */
 @property (nonatomic, strong) NSMutableArray *buttonTitles;
-@property (nonatomic, strong) NSMutableArray *buttonIcons;
-@property (nonatomic, strong) NSMutableArray *buttonIconsTexts;
+@property (nonatomic, strong) NSMutableArray *buttonLeftIcons;
+@property (nonatomic, strong) NSMutableArray *buttonRightIcons;
+@property (nonatomic, strong) NSMutableArray *rightButtonIconsTexts;
 @property (nonatomic, strong) NSMutableArray *buttonBlocks;
 
 @property (nonatomic, copy) NSString *destructiveTitle;
@@ -458,32 +459,55 @@ const CGFloat kTOActionSheetScreenPadding = 20.0f;
 
         button.contentHorizontalAlignment = self.buttonContentHorizontalAlignment;
         
-        if (self.buttonIcons.count && [self.buttonIcons objectAtIndex:i] != nil) {
-            UIImage *icon = [[self.buttonIcons objectAtIndex:i] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-            CGRect imageViewFrame = CGRectMake(0, 0, button.frame.size.height / 1.5, button.frame.size.height / 1.5);
-            UIImageView *imageView = [[UIImageView alloc] initWithFrame:imageViewFrame];
-            imageView.contentMode = UIViewContentModeScaleAspectFit;
-            imageView.image = icon;
-            imageView.tag = 123;
-            imageView.tintColor = self.buttonTextColor;
-            CGFloat size = (button.frame.size.height-imageView.frame.size.height)/2;
-            if (self.contentstyle == TOActionSheetContentStyleRight) {
-                imageView.frame = (CGRect){button.frame.size.width-(10+imageView.frame.size.width), size, imageView.frame.size.width, imageView.frame.size.height};
-            } else {
-                imageView.frame = (CGRect){size, size, imageView.frame.size.width, imageView.frame.size.height};
-            }
-            [button addSubview:imageView];
+        if (self.buttonRightIcons.count && [self.buttonRightIcons objectAtIndex:i] != nil && self.buttonLeftIcons.count && [self.buttonLeftIcons objectAtIndex:i] != nil) {
 
-            if (self.buttonIconsTexts.count && [self.buttonIconsTexts objectAtIndex:i] != nil) {
-                NSString *iconText = [self.buttonIconsTexts objectAtIndex:i];
-                UILabel *label = [[UILabel alloc] initWithFrame:imageViewFrame];
-                label.text = iconText;
-                label.font = self.buttonFont;
-                label.textColor = self.buttonBackgroundColor;
-                label.textAlignment = NSTextAlignmentCenter;
-                label.numberOfLines = 1;
-                label.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
-                [imageView addSubview:label];
+            // right image
+            {
+                UIImage *rImage = [[self.buttonRightIcons objectAtIndex:i] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+                CGRect rImageViewFrame = CGRectMake(0, 0, button.frame.size.height / 1.5, button.frame.size.height / 1.5);
+                UIImageView *rImageView = [[UIImageView alloc] initWithFrame:rImageViewFrame];
+                rImageView.contentMode = UIViewContentModeScaleAspectFit;
+                rImageView.image = rImage;
+                rImageView.tag = 123;
+                rImageView.tintColor = self.buttonTextColor;
+                CGFloat size = (button.frame.size.height-rImageView.frame.size.height)/2;
+                if (self.contentstyle == TOActionSheetContentStyleRight) {
+                    rImageView.frame = (CGRect){button.frame.size.width-(28+rImageView.frame.size.width), size, rImageView.frame.size.width, rImageView.frame.size.height};
+                } else {
+                    rImageView.frame = (CGRect){size, size, rImageView.frame.size.width, rImageView.frame.size.height};
+                }
+                [button addSubview:rImageView];
+
+                if (self.rightButtonIconsTexts.count && [self.rightButtonIconsTexts objectAtIndex:i] != nil) {
+                    NSString *iconText = [self.rightButtonIconsTexts objectAtIndex:i];
+                    UILabel *label = [[UILabel alloc] initWithFrame:rImageViewFrame];
+                    label.text = iconText;
+                    label.font = self.buttonFont;
+                    label.textColor = self.buttonBackgroundColor;
+                    label.textAlignment = NSTextAlignmentCenter;
+                    label.numberOfLines = 1;
+                    label.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+                    [rImageView addSubview:label];
+                }
+            }
+
+            // left image
+            {
+                CGFloat icoScale = 1.6;
+                UIImage *lImage = [[self.buttonLeftIcons objectAtIndex:i] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+                CGRect lImageViewFrame = CGRectMake(0, 0, button.frame.size.height / icoScale, button.frame.size.height / icoScale);
+                UIImageView *lImageView = [[UIImageView alloc] initWithFrame:lImageViewFrame];
+                lImageView.contentMode = UIViewContentModeScaleAspectFit;
+                lImageView.image = lImage;
+                lImageView.tag = 321;
+                lImageView.tintColor = self.buttonTextColor;
+                CGFloat originY = (button.frame.size.height-lImageView.frame.size.height)/2;
+                if (self.contentstyle == TOActionSheetContentStyleRight) {
+                    lImageView.frame = (CGRect){24, originY, lImageView.frame.size.width, lImageView.frame.size.height};
+                } else {
+                    lImageView.frame = (CGRect){24, originY, lImageView.frame.size.width, lImageView.frame.size.height};
+                }
+                [button addSubview:lImageView];
             }
             
             if (self.contentstyle == TOActionSheetContentStyleLeft) {
@@ -955,30 +979,36 @@ const CGFloat kTOActionSheetScreenPadding = 20.0f;
 }
 
 #pragma mark - Button Configuration -
-- (void)addButtonWithTitle:(NSString *)title icon:(UIImage *)icon tappedBlock:(void (^)(void))tappedBlock
+- (void)addButtonWithTitle:(NSString *)title rightIcon:(UIImage *)rightIcon leftIcon:(UIImage *)leftIcon tappedBlock:(void (^)(void))tappedBlock
 {
-    if (self.buttonIcons == nil) {
-        self.buttonIcons = [NSMutableArray array];
+    if (self.buttonLeftIcons == nil) {
+        self.buttonLeftIcons = [NSMutableArray array];
+    }
+    if (leftIcon != nil) {
+        [self.buttonLeftIcons insertObject:leftIcon atIndex:self.buttonTitles.count];
     }
 
-    if (icon != nil) {
-        [self.buttonIcons insertObject:icon atIndex:self.buttonTitles.count];
+    if (self.buttonRightIcons == nil) {
+        self.buttonRightIcons = [NSMutableArray array];
+    }
+    if (rightIcon != nil) {
+        [self.buttonRightIcons insertObject:rightIcon atIndex:self.buttonTitles.count];
     }
 
     [self addButtonWithTitle:title atIndex:self.buttonTitles.count tappedBlock:tappedBlock];
 }
 
-- (void)addButtonWithTitle:(NSString *)title icon:(UIImage *)icon iconText:(NSString *)iconText tappedBlock:(void (^)(void))tappedBlock {
+- (void)addButtonWithTitle:(NSString *)title rightIcon:(UIImage *)rightIcon leftIcon:(UIImage *)leftIcon rightIconText:(NSString *)rightIconText tappedBlock:(void (^)(void))tappedBlock {
 
-    if (self.buttonIconsTexts == nil) {
-        self.buttonIconsTexts = [NSMutableArray array];
+    if (self.rightButtonIconsTexts == nil) {
+        self.rightButtonIconsTexts = [NSMutableArray array];
     }
 
-    if (iconText != nil) {
-        [self.buttonIconsTexts insertObject:iconText atIndex:self.buttonTitles.count];
+    if (rightIconText != nil) {
+        [self.rightButtonIconsTexts insertObject:rightIconText atIndex:self.buttonTitles.count];
     }
 
-    [self addButtonWithTitle:title icon:icon tappedBlock:tappedBlock];
+    [self addButtonWithTitle:title rightIcon:rightIcon leftIcon:leftIcon tappedBlock:tappedBlock];
 }
 
 - (void)addButtonWithTitle:(NSString *)title tappedBlock:(void (^)(void))tappedBlock

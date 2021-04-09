@@ -208,8 +208,8 @@ Optionally, the text for the 'Cancel' button.
  @param title The title to display in the button
  @param tappedBlock A block that will be executed when the button is tapped
  */
-- (void)addButtonWithTitle:(NSString *)title icon:(UIImage *)icon tappedBlock:(void (^)(void))tappedBlock;
-- (void)addButtonWithTitle:(NSString *)title icon:(UIImage *)icon iconText:(NSString *)iconText tappedBlock:(void (^)(void))tappedBlock;
+- (void)addButtonWithTitle:(NSString *)title rightIcon:(UIImage *)rightIcon leftIcon:(UIImage *)leftIcon tappedBlock:(void (^)(void))tappedBlock;
+- (void)addButtonWithTitle:(NSString *)title rightIcon:(UIImage *)rightIcon leftIcon:(UIImage *)leftIcon rightIconText:(NSString *)rightIconText tappedBlock:(void (^)(void))tappedBlock;
 - (void)addButtonWithTitle:(NSString *)title tappedBlock:(void (^)(void))tappedBlock;
 - (void)addButtonWithTitle:(NSString *)title atIndex:(NSInteger)index tappedBlock:(void (^)(void))tappedBlock;
 - (void)removeButtonAtIndex:(NSInteger)index;
