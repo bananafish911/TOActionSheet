@@ -35,6 +35,8 @@ typedef NS_ENUM(NSInteger, TOActionSheetContentStyle) {
 
 @interface TOActionSheet : UIView
 
+@property (nonatomic, assign) CGFloat actionSheetButtonHeight;
+
 /**
  The title text that will appear at the top of the action sheet.
  */

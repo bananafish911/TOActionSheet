@@ -43,8 +43,6 @@ const CGFloat kTOActionSheetScreenPadding = 20.0f;
 /* The width of this action sheet */
 @property (nonatomic, assign) CGFloat width;
 
-@property (nonatomic, assign) CGFloat actionSheetButtonHeight;
-
 /* The elements we can use to align the popup sheet */
 @property (nonatomic, assign) CGRect targetRect;
 @property (nonatomic, strong) UIView *targetView;
@@ -133,9 +131,9 @@ const CGFloat kTOActionSheetScreenPadding = 20.0f;
     _actionSheetButtonHeight = 50;
 
     //Set initial theming properties
-    _buttonFont = [UIFont systemFontOfSize:20.0f];
-    _titleFont = [UIFont systemFontOfSize:18.0f];
-    _cancelButtonFont = [UIFont boldSystemFontOfSize:20.0f];
+    _buttonFont = [UIFont systemFontOfSize:19.0f];
+    _titleFont = [UIFont systemFontOfSize:16.0f];
+    _cancelButtonFont = [UIFont boldSystemFontOfSize:19.0f];
     _cancelButtonTitle = NSLocalizedStringFromTable(@"Cancel", @"TOActionSheetLocalizable", @"Cancel Button");
     [self setColorsForStyle:_style];
     
@@ -496,9 +494,9 @@ const CGFloat kTOActionSheetScreenPadding = 20.0f;
 
             // left image
             {
-                CGFloat icoScale = 1.7;
+                CGFloat icoScale = 0.6;
                 UIImage *lImage = [[self.buttonLeftIcons objectAtIndex:i] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-                CGRect lImageViewFrame = CGRectMake(0, 0, button.frame.size.height / icoScale, button.frame.size.height / icoScale);
+                CGRect lImageViewFrame = CGRectMake(0, 0, button.frame.size.height * icoScale, button.frame.size.height * icoScale);
                 UIImageView *lImageView = [[UIImageView alloc] initWithFrame:lImageViewFrame];
                 lImageView.contentMode = UIViewContentModeScaleAspectFit;
                 lImageView.image = lImage;
