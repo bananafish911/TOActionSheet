@@ -30,7 +30,6 @@ typedef NS_ENUM(NSInteger, TOActionSheetArrowDirection) {
     TOActionSheetArrowDirectionRight
 };
 
-const CGFloat kTOActionSheetButtonHeight  = 56.0f;
 const CGFloat kTOActionSheetDefaultWidth  = 300.0f;
 const CGFloat kTOActionSheetBorderRadius  = 15.0f;
 const CGFloat kTOActionSheetTitlePadding  = 15.0f;
@@ -43,6 +42,8 @@ const CGFloat kTOActionSheetScreenPadding = 20.0f;
 
 /* The width of this action sheet */
 @property (nonatomic, assign) CGFloat width;
+
+@property (nonatomic, assign) CGFloat actionSheetButtonHeight;
 
 /* The elements we can use to align the popup sheet */
 @property (nonatomic, assign) CGRect targetRect;
@@ -129,6 +130,8 @@ const CGFloat kTOActionSheetScreenPadding = 20.0f;
 
 - (void)setUp
 {
+    _actionSheetButtonHeight = 50;
+
     //Set initial theming properties
     _buttonFont = [UIFont systemFontOfSize:20.0f];
     _titleFont = [UIFont systemFontOfSize:18.0f];
@@ -416,7 +419,7 @@ const CGFloat kTOActionSheetScreenPadding = 20.0f;
 #pragma mark - Action Sheet Views Set-up -
 - (void)setUpRegularButtons
 {
-    CGRect buttonFrame = (CGRect){0,0,self.width,kTOActionSheetButtonHeight};
+    CGRect buttonFrame = (CGRect){0,0,self.width,self.actionSheetButtonHeight};
     
     // See if we need to generate graphics for buttons in-between the top and bottom rounded ones
     NSInteger numberOfElements = 0;
@@ -542,7 +545,7 @@ const CGFloat kTOActionSheetScreenPadding = 20.0f;
 {
     self.cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
     self.cancelButton.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    self.cancelButton.frame = (CGRect){0,0,self.width,kTOActionSheetButtonHeight};
+    self.cancelButton.frame = (CGRect){0,0,self.width,self.actionSheetButtonHeight};
     [self.cancelButton setTitle:self.cancelButtonTitle forState:UIControlStateNormal];
     self.cancelButton.titleLabel.font = self.cancelButtonFont;
     
@@ -568,7 +571,7 @@ const CGFloat kTOActionSheetScreenPadding = 20.0f;
     self.destructiveButton = [UIButton buttonWithType:UIButtonTypeCustom];
     self.destructiveButton.contentEdgeInsets = UIEdgeInsetsMake(0, -10, 0, 10);
     self.destructiveButton.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    self.destructiveButton.frame = (CGRect){0,0,self.width,kTOActionSheetButtonHeight};
+    self.destructiveButton.frame = (CGRect){0,0,self.width,self.actionSheetButtonHeight};
     [self.destructiveButton setTitle:self.destructiveTitle forState:UIControlStateNormal];
     [self.destructiveButton setTitleColor:self.destructiveButtonTextColor forState:UIControlStateNormal];
     [self.destructiveButton setTitleColor:self.destructiveButtonTappedTextColor forState:UIControlStateHighlighted];
@@ -696,7 +699,7 @@ const CGFloat kTOActionSheetScreenPadding = 20.0f;
     CGRect frame = CGRectZero;
     frame.size.width = self.width;
     frame.size.height += self.headerBackgroundView.frame.size.height;
-    frame.size.height += (self.buttonTitles.count * kTOActionSheetButtonHeight);
+    frame.size.height += (self.buttonTitles.count * self.actionSheetButtonHeight);
     frame.size.height += (self.destructiveButton.frame.size.height);
     self.containerView.frame = frame;
     
@@ -731,14 +734,14 @@ const CGFloat kTOActionSheetScreenPadding = 20.0f;
         height = self.headerBackgroundView.frame.size.height;
     }
     else {
-        height = kTOActionSheetButtonHeight;
+        height = self.actionSheetButtonHeight;
     }
         
     for (UIView *separatorView in self.separatorViews) {
         frame = separatorView.frame;
         frame.origin.y = height;
         separatorView.frame = frame;
-        height += kTOActionSheetButtonHeight;
+        height += self.actionSheetButtonHeight;
         [self.containerView addSubview:separatorView];
     }
     
