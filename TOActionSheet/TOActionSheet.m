@@ -130,9 +130,9 @@ const CGFloat kTOActionSheetScreenPadding = 20.0f;
 - (void)setUp
 {
     //Set initial theming properties
-    _buttonFont = [UIFont systemFontOfSize:18.0f];
-    _titleFont = [UIFont systemFontOfSize:15.0f];
-    _cancelButtonFont = [UIFont boldSystemFontOfSize:18.0f];
+    _buttonFont = [UIFont systemFontOfSize:20.0f];
+    _titleFont = [UIFont systemFontOfSize:18.0f];
+    _cancelButtonFont = [UIFont boldSystemFontOfSize:20.0f];
     _cancelButtonTitle = NSLocalizedStringFromTable(@"Cancel", @"TOActionSheetLocalizable", @"Cancel Button");
     [self setColorsForStyle:_style];
     
@@ -482,7 +482,7 @@ const CGFloat kTOActionSheetScreenPadding = 20.0f;
                     NSString *iconText = [self.rightButtonIconsTexts objectAtIndex:i];
                     UILabel *label = [[UILabel alloc] initWithFrame:rImageViewFrame];
                     label.text = iconText;
-                    label.font = self.buttonFont;
+                    label.font = [self.buttonFont fontWithSize:self.buttonFont.pointSize * 0.9];
                     label.textColor = self.buttonBackgroundColor;
                     label.textAlignment = NSTextAlignmentCenter;
                     label.numberOfLines = 1;
@@ -493,7 +493,7 @@ const CGFloat kTOActionSheetScreenPadding = 20.0f;
 
             // left image
             {
-                CGFloat icoScale = 1.6;
+                CGFloat icoScale = 1.7;
                 UIImage *lImage = [[self.buttonLeftIcons objectAtIndex:i] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
                 CGRect lImageViewFrame = CGRectMake(0, 0, button.frame.size.height / icoScale, button.frame.size.height / icoScale);
                 UIImageView *lImageView = [[UIImageView alloc] initWithFrame:lImageViewFrame];

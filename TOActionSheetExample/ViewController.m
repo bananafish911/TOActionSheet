@@ -16,11 +16,19 @@
 
 @implementation ViewController
 
+- (void)viewDidLoad {
+    [super viewDidLoad];
+
+    [self didTapShow:nil];
+}
+
+
 - (IBAction)didTapShow:(id)sender {
     TOActionSheet *actionSheet = [[TOActionSheet alloc] init];
     actionSheet.title = nil;
     actionSheet.cancelButtonTitle = @"cancellll";
-    actionSheet.style = (sender == self.darkButton) ? TOActionSheetStyleDark : TOActionSheetStyleLight;
+//    actionSheet.style = (sender == self.darkButton) ? TOActionSheetStyleDark : TOActionSheetStyleLight;
+    actionSheet.style = TOActionSheetStyleLight;
     actionSheet.contentstyle = TOActionSheetContentStyleRight;
     actionSheet.buttonContentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
 
@@ -52,18 +60,11 @@
         NSLog(@"Done!");
     }];
 
-    [actionSheet addButtonWithTitle:@"No icons"
-                          rightIcon:[UIImage new]
-                           leftIcon:[UIImage new]
-                      rightIconText:@"" tappedBlock:^{
-        NSLog(@"Done!");
-    }];
-
     actionSheet.actionSheetDismissedBlock = ^{
         NSLog(@"Dismissed!");
     };
 
-    UIButton *button = (UIButton *)sender;
+//    UIButton *button = (UIButton *)sender;
 //    [actionSheet showFromView:button inView:self.navigationController.view];
     [actionSheet showFromView:self.view inView:self.view];
 }
